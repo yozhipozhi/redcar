@@ -26,6 +26,7 @@ module Redcar
         @handlers = Hash.new {|h,k| h[k] = []}
         @parent.layout
         @model.after_draw if @model.respond_to?(:after_draw)
+        UIHints.apply_hints(@composite, @model)
       end
 
       def close
@@ -46,8 +47,7 @@ module Redcar
       end
 
       def num_columns
-        model_cols = @model.option(:num_columns)
-        return model_cols if model_cols > 0
+        return @model.num_columns if @model.num_columns > 0
         @model.__items.select {|i| !i.is_a?(Redcar::Speedbar::KeyItem) }.length
       end
 

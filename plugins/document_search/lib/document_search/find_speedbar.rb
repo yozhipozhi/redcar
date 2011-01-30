@@ -14,14 +14,10 @@ module Redcar
 
       ### UI DEFINITION ###
 
-      # Sets default options for the speedbar, merging in the parent class defaults.
-      #
-      # These options may be overridden in the constructor.
-      def self.default_options
-        super().update({
-          :num_columns => 7
-        })
-      end  # self.default_options
+      # description here
+      def initialize(ui_hints=nil)
+        super(num_columns=7, ui_hints={:background => 'BLUE'})
+      end  # initialize()
 
       label :label_find, 'Find:', :foreground => 'RED'
       textbox :query do |val|

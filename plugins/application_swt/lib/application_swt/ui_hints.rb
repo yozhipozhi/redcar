@@ -19,8 +19,9 @@ module Redcar
       #
       # The final hint value is applied to the widget by prepending 'set_' to the method name, e.g.
       # the hint :foreground is set using widget.set_foreground().
-      def self.apply_hints_to_widget(widget, item_or_hints)
-        ui_hints = item_or_hints.respond_to? :ui_hints : item_or_hints.ui_hints : item_or_hints
+      def self.apply_hints(widget, item_or_hints)
+        ui_hints = (item_or_hints.respond_to? :ui_hints) ? item_or_hints.ui_hints : item_or_hints
+        return unless ui_hints
         ui_hints.each do |name, val|
           # Transform the hint value to the appropriate type.
           transform_sym = HINT_TRANSFORMS[name]
@@ -36,12 +37,11 @@ module Redcar
             puts "WARNING - Invalid method #{setter_name} on widget #{widget}."
           end
         end
-      end  # self.apply_to_widget()
+      end  # self.apply_hints()
 
       # Makes a SWT Color instance from the given value, either a hex string, RGB tuple, or simple
       # name of a SWT system color, e.g. 'RED' and 'red' are mapped to SWT::COLOR_RED.
       def self.make_color(val)
-        puts "Color value: #{val}"
         case val
         when /^\#([\dA-Fa-f]{2})([\dA-Fa-f]{2})([\dA-Fa-f]{2})$/  # HTML hex
           Swt::Graphics::Color.new(Swt.display, $1.hex, $2.hex, $3.hex)

@@ -3,6 +3,8 @@ module Redcar
   class Speedbar
     include Redcar::Model
 
+    attr_reader :num_columns, :ui_hints
+
     LabelItem   = ObservableStruct.new(:name, :text, :ui_hints)
     ToggleItem  = ObservableStruct.new(:name, :text, :key, :listener, :value)
     TextBoxItem = ObservableStruct.new(:name, :listener, :value, :edit_view)
@@ -32,23 +34,10 @@ module Redcar
       }
     end
 
-    # Returns a copy of the default options, which may be adjusted by subclasses and overriden in
-    # the constructor.
-    def self.default_options
-      options = {
-        :num_columns => 0,  # expand automatically for number of items
-      }
-      options.clone
-    end
-
-    # Initializes the speedbar, using any given option overrides.
-    def initialize(options=nil)
-      @options = self.class.default_options
-      @options.update(options) if options
-    end
-
-    def option(opt)
-      @options[opt]
+    # Initializes the speedbar.
+    def initialize(num_columns=0, ui_hints=nil)
+      @num_columns = num_columns
+      @ui_hints = ui_hints
     end
 
     def __get_item(name)
