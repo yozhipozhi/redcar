@@ -41,7 +41,7 @@ module Redcar
       end  # self.get_transformed_value()
 
 
-      ### HINT
+      ### HINT APPLICATION ###
 
       # Applies UI hints to the given widget.
       #
