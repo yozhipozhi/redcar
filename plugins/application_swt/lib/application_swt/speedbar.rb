@@ -1,3 +1,4 @@
+require 'application_swt/ui_hints'
 require 'application_swt/speedbar/button_item'
 require 'application_swt/speedbar/combo_item'
 require 'application_swt/speedbar/label_item'
@@ -45,7 +46,8 @@ module Redcar
       end
 
       def num_columns
-        return @model.num_columns if @model.respond_to?(:num_columns)
+        model_cols = @model.option(:num_columns)
+        return model_cols if model_cols > 0
         @model.__items.select {|i| !i.is_a?(Redcar::Speedbar::KeyItem) }.length
       end
 

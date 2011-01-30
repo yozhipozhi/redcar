@@ -8,6 +8,7 @@ module Redcar
           item.add_listener(:changed_text) do |new_text|
             label.set_text(item.text)
           end
+          UIHints.apply_hints_to_widget(label, item)
         end
       end
     end
