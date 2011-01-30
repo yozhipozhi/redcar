@@ -52,11 +52,12 @@ module Redcar
       # using the appropriate function.
       #
       # The final hint value is applied to the widget by prepending 'set_' to the method name, e.g.
-      # the hint :foreground is set using widget.set_foreground().
-      def self.apply_hints(widget, item_or_hints)
+      # the hint :foreground is set using widget.set_foreground() -- as a backup, a 'name=' method
+      # is also tried.
+      def self.apply_hints(target, item_or_hints)
         ui_hints = UIHints.get_item_hints(item_or_hints) || item_or_hints
         return unless ui_hints
-        UIHints.apply_params_with_transforms(widget, ui_hints, HINT_TRANSFORMS)
+        UIHints.apply_params_with_transforms(target, ui_hints, HINT_TRANSFORMS)
       end  # self.apply_hints()
 
       # Applies the set of parameters to the target object, mapping the values using the given
