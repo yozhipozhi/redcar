@@ -183,6 +183,7 @@ module Redcar
         data_type = Swt::Layout::GridData
         if params[:type]
           data_type = params[:type]
+          params = params.dup
           params.delete(:type)
         end
 
