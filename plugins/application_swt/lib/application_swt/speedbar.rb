@@ -17,7 +17,7 @@ module Redcar
         @window_model = window
         @parent = parent
         @model = model
-        create_widgets
+        create_widgets(model.ui_hints)
         attach_key_listeners
         disable_menu_items
         if widget = focussable_widgets.first
@@ -26,7 +26,6 @@ module Redcar
         @handlers = Hash.new {|h,k| h[k] = []}
         @parent.layout
         @model.after_draw if @model.respond_to?(:after_draw)
-        UIHints.apply_hints(@composite, @model)
       end
 
       def close
@@ -63,22 +62,28 @@ module Redcar
         @focussable_widgets ||= []
       end
 
-      def create_widgets
-        create_bar_widget
+      def create_widgets(ui_hints=nil)
+        create_bar_widget(ui_hints)
         create_item_widgets
       end
 
-      def create_bar_widget
+      def create_bar_widget(ui_hints=nil)
         @composite = Swt::Widgets::Composite.new(@parent, Swt::SWT::NONE)
-        grid_data = Swt::Layout::GridData.new
-        grid_data.grabExcessHorizontalSpace = true
-        grid_data.horizontalAlignment = Swt::Layout::GridData::FILL
-        @composite.setLayoutData(grid_data)
-        layout = Swt::Layout::GridLayout.new(num_columns + 1, false)
-        layout.verticalSpacing = 0
-        layout.marginHeight = 0
-        layout.marginTop = 5
-        @composite.setLayout(layout)
+        ui_hints ||= {}
+        UIHints.apply_hints(@composite, ui_hints)
+        unless ui_hints.has_key? :layout_data
+          grid_data = Swt::Layout::GridData.new
+          grid_data.grabExcessHorizontalSpace = true
+          grid_data.horizontalAlignment = Swt::Layout::GridData::FILL
+          @composite.setLayoutData(grid_data)
+        end
+        unless ui_hints.has_key? :layout
+          layout = Swt::Layout::GridLayout.new(num_columns + 1, false)
+          layout.verticalSpacing = 0
+          layout.marginHeight = 0
+          layout.marginTop = 5
+          @composite.setLayout(layout)
+        end
         image = Swt::Graphics::Image.new(ApplicationSWT.display, Redcar::Speedbar.close_image_path)
         label = Swt::Widgets::Label.new(@composite, 0)
         label.set_image(image)
