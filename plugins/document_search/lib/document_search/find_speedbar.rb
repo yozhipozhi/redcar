@@ -14,7 +14,7 @@ module Redcar
 
       ### UI DEFINITION ###
 
-      # description here
+      # Configures the appearance of the speedbar.
       def initialize(ui_hints=nil)
         super(num_columns=7,
               ui_hints={

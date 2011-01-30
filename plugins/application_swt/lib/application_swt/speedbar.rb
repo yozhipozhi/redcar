@@ -69,6 +69,7 @@ module Redcar
 
       def create_bar_widget(ui_hints=nil)
         @composite = Swt::Widgets::Composite.new(@parent, Swt::SWT::NONE)
+        # Apply UI hints first, allowing them to supersede the layout and layout data.
         ui_hints ||= {}
         UIHints.apply_hints(@composite, ui_hints)
         unless ui_hints.has_key? :layout_data
