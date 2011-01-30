@@ -16,10 +16,14 @@ module Redcar
 
       # description here
       def initialize(ui_hints=nil)
-        super(num_columns=7, ui_hints={:background => 'BLUE'})
+        super(num_columns=7,
+              ui_hints={
+                :background => 'BLUE',
+                :layout_data => { :horizontalAlignment => 'FILL', :verticalIndent => 25 },
+              })
       end  # initialize()
 
-      label :label_find, 'Find:', :foreground => 'RED'
+      label :label_find, 'Find:', :foreground => 'RED', :background => 'YELLOW', :style => 'SHADOW_OUT', :alignment => 'RIGHT', :layout_data => { :horizontalAlignment => 'FILL' }
       textbox :query do |val|
         FindSpeedbar.previous_query = val
       end
@@ -36,11 +40,11 @@ module Redcar
         FindSpeedbar.previous_options.wrap_around = val
       end
 
-      label :label_not_found, NotFoundMessage   # Hack: Set label for sizing, clear in after_draw
-      label :label_space_end_row1, ""
-      label :label_spacer_start_row2, ""
+      # Hack: Set label for sizing, clear in after_draw
+      label :label_not_found, NotFoundMessage, :font => 'BOLD', :foreground => 'RED', :layout_data => { :horizontalSpan => 2 }
 
-      label :label_replace, 'Replace:'
+      label :label_spacer_start_row2, ""
+      label :label_replace, 'Replace:', :font => 'Courier, BOLD, ITALIC, +2'
       textbox :replace do |val|
         FindSpeedbar.previous_replace = val
       end
