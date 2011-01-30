@@ -14,12 +14,16 @@ module Redcar
 
       ### UI DEFINITION ###
 
-      # Override num_columns to control number of rows.
-      def num_columns
-        return 7
-      end
+      # Sets default options for the speedbar, merging in the parent class defaults.
+      #
+      # These options may be overridden in the constructor.
+      def self.default_options
+        super().update({
+          :num_columns => 7
+        })
+      end  # self.default_options
 
-      label :label_find, 'Find:'
+      label :label_find, 'Find:', :foreground => 'RED'
       textbox :query do |val|
         FindSpeedbar.previous_query = val
       end
