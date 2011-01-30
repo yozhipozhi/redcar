@@ -41,6 +41,7 @@ module Redcar
       def select_next_match(doc, start_pos, query, wrap_around)
         return false unless is_valid(query)
         scanner = StringScanner.new(doc.get_all_text)
+        start_pos = doc.get_all_text.length - 1 if start_pos > doc.get_all_text.length
         scanner.pos = start_pos
         if not scanner.scan_until(query)
           if not wrap_around
